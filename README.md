@@ -32,16 +32,16 @@ PHP is the world's most popular web language, but it has been trapped in the ser
 
 ```mermaid
 graph TD
-    SRC[PHP Source Code] --> PX[px CLI]
-    PX -->|Target: Native| P2IR[php2ir (LLVM)]
-    PX -->|Target: iOS| PIOS[php-ios (Static Lib)]
-    PX -->|Target: Web| PWASM[php2wasm (Emscripten)]
-    PX -->|Target: IoT| UPHP[microphp (Firmware)]
+    SRC["PHP Source Code"] --> PX["px CLI"]
+    PX -->|"Target: Native"| P2IR["php2ir (LLVM)"]
+    PX -->|"Target: iOS"| PIOS["php-ios (Static Lib)"]
+    PX -->|"Target: Web"| PWASM["php2wasm (Emscripten)"]
+    PX -->|"Target: IoT"| UPHP["microphp (Firmware)"]
     
-    P2IR --> BIN[Linux/Mac/Win Binary]
-    PIOS --> IPA[iOS Framework]
-    PWASM --> WASM[Wasm Module]
-    UPHP --> ESP[ESP32/Pico Bin]
+    P2IR --> BIN["Linux/Mac/Win Binary"]
+    PIOS --> IPA["iOS Framework"]
+    PWASM --> WASM["Wasm Module"]
+    UPHP --> ESP["ESP32/Pico Bin"]
 ```
 
 -----
