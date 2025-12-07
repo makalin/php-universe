@@ -1,0 +1,28 @@
+[project]
+name = "cross-platform-lib"
+version = "1.0.0"
+entry = "src/MathLib.php"
+description = "A math library that works on all platforms"
+
+[targets.native]
+enabled = true
+optimization = "O3"
+output = "dist/math-lib"
+strip = true
+
+[targets.wasm]
+enabled = true
+expose_functions = ["fibonacci", "factorial", "gcd", "lcm", "is_prime"]
+memory_size = "8MB"
+optimization = "O3"
+
+[targets.ios]
+enabled = true
+bundle_id = "com.example.mathlib"
+minimum_ios_version = "13.0"
+
+[targets.embedded]
+enabled = true
+platform = "esp32"
+flash_size = "4MB"
+

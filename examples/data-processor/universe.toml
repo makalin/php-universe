@@ -1,0 +1,24 @@
+[project]
+name = "data-processor"
+version = "1.0.0"
+entry = "src/DataProcessor.php"
+description = "Data processing example using utility functions"
+
+[targets.native]
+enabled = true
+optimization = "O3"
+output = "dist/data-processor"
+strip = true
+
+[targets.wasm]
+enabled = true
+expose_functions = []
+memory_size = "8MB"
+optimization = "O3"
+
+[targets.ios]
+enabled = false
+
+[targets.embedded]
+enabled = false
+

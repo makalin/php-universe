@@ -1,0 +1,24 @@
+[project]
+name = "wasm-calculator"
+version = "1.0.0"
+entry = "src/calculator.php"
+description = "A calculator that runs in the browser via WebAssembly"
+
+[targets.native]
+enabled = true
+optimization = "O2"
+output = "dist/calculator"
+strip = false
+
+[targets.wasm]
+enabled = true
+expose_functions = ["calculate"]
+memory_size = "8MB"
+optimization = "O3"
+
+[targets.ios]
+enabled = false
+
+[targets.embedded]
+enabled = false
+

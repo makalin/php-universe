@@ -1,0 +1,21 @@
+[project]
+name = "file-processor"
+version = "1.0.0"
+entry = "src/file_processor.php"
+description = "A CLI tool for analyzing files"
+
+[targets.native]
+enabled = true
+optimization = "O3"
+output = "dist/file-processor"
+strip = true
+
+[targets.wasm]
+enabled = false
+
+[targets.ios]
+enabled = false
+
+[targets.embedded]
+enabled = false
+

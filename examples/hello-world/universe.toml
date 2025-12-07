@@ -1,0 +1,28 @@
+[project]
+name = "hello-world"
+version = "1.0.0"
+entry = "src/main.php"
+description = "A simple Hello World example for php-universe"
+
+[targets.native]
+enabled = true
+optimization = "O2"
+output = "dist/hello-world"
+strip = false
+
+[targets.wasm]
+enabled = true
+expose_functions = ["greet", "calculate"]
+memory_size = "8MB"
+optimization = "O2"
+
+[targets.ios]
+enabled = false
+bundle_id = "com.example.helloworld"
+minimum_ios_version = "13.0"
+
+[targets.embedded]
+enabled = false
+platform = "esp32"
+flash_size = "4MB"
+

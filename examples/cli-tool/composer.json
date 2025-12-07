@@ -1,0 +1,12 @@
+{
+    "name": "php-universe/cli-tool",
+    "description": "File processor CLI tool example",
+    "type": "project",
+    "require": {
+        "php": ">=8.2"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}
+

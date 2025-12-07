@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Calculator (WASM)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .calculator {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+        }
+        .input-group {
+            margin: 15px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-weight: 500;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e7f3ff;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #004085;
+            min-height: 30px;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .loading {
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>🧮 PHP Calculator (WASM)</h1>
+        <p>This calculator runs entirely in your browser using PHP compiled to WebAssembly!</p>
+        
+        <div class="input-group">
+            <label for="a">First Number:</label>
+            <input type="number" id="a" value="10" step="any">
+        </div>
+        
+        <div class="input-group">
+            <label for="op">Operation:</label>
+            <select id="op">
+                <option value="add">Addition (+)</option>
+                <option value="subtract">Subtraction (-)</option>
+                <option value="multiply">Multiplication (×)</option>
+                <option value="divide">Division (÷)</option>
+                <option value="power">Power (^)</option>
+                <option value="sqrt">Square Root (√)</option>
+            </select>
+        </div>
+        
+        <div class="input-group">
+            <label for="b">Second Number (not needed for sqrt):</label>
+            <input type="number" id="b" value="5" step="any">
+        </div>
+        
+        <button onclick="calculate()" id="calcBtn">Calculate</button>
+        
+        <div id="result"></div>
+    </div>
+    
+    <script type="module">
+        let wasmModule = null;
+        let isLoading = true;
+        
+        // Load WASM module
+        async function loadWasm() {
+            try {
+                const resultDiv = document.getElementById('result');
+                resultDiv.textContent = 'Loading WebAssembly module...';
+                resultDiv.className = 'loading';
+                
+                wasmModule = await WebAssembly.instantiateStreaming(
+                    fetch('dist/calculator.wasm')
+                );
+                
+                isLoading = false;
+                resultDiv.textContent = 'Ready! Enter values and click Calculate.';
+                resultDiv.className = '';
+                document.getElementById('calcBtn').disabled = false;
+            } catch (error) {
+                document.getElementById('result').textContent = 
+                    'Error loading WASM: ' + error.message;
+                document.getElementById('result').className = 'error';
+            }
+        }
+        
+        window.calculate = function() {
+            if (isLoading || !wasmModule) {
+                alert('WASM module is still loading. Please wait.');
+                return;
+            }
+            
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const op = document.getElementById('op').value;
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                let result;
+                if (op === 'sqrt') {
+                    result = wasmModule.instance.exports.calculate(op, a, 0);
+                } else {
+                    result = wasmModule.instance.exports.calculate(op, a, b);
+                }
+                
+                resultDiv.textContent = `Result: ${result}`;
+                resultDiv.className = '';
+            } catch (error) {
+                resultDiv.textContent = 'Error: ' + error.message;
+                resultDiv.className = 'error';
+            }
+        };
+        
+        // Update UI when operation changes
+        document.getElementById('op').addEventListener('change', function() {
+            const bInput = document.getElementById('b');
+            if (this.value === 'sqrt') {
+                bInput.disabled = true;
+                bInput.placeholder = 'Not needed for square root';
+            } else {
+                bInput.disabled = false;
+                bInput.placeholder = '';
+            }
+        });
+        
+        // Load WASM on page load
+        loadWasm();
+    </script>
+</body>
+</html>
+

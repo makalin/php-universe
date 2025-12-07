@@ -1,0 +1,12 @@
+{
+    "name": "php-universe/hello-world",
+    "description": "Hello World example for php-universe",
+    "type": "project",
+    "require": {
+        "php": ">=8.2"
+    },
+    "autoload": {
+        "files": ["src/main.php"]
+    }
+}
+

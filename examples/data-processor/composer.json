@@ -1,0 +1,12 @@
+{
+    "name": "php-universe/data-processor",
+    "description": "Data processing example",
+    "type": "project",
+    "require": {
+        "php": ">=8.2"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}
+

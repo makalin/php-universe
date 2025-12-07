@@ -1,0 +1,12 @@
+{
+    "name": "php-universe/cross-platform-lib",
+    "description": "Cross-platform math library example",
+    "type": "library",
+    "require": {
+        "php": ">=8.2"
+    },
+    "autoload": {
+        "classmap": ["src/"]
+    }
+}
+
